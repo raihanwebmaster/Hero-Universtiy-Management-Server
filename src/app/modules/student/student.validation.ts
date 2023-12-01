@@ -41,7 +41,7 @@ const createValidationSchema = z.object({
           message:
             "Gender can only be one of the following: 'male', 'female', or 'other'.",
         }),
-      dateOfBirth: z.date().optional(),
+      dateOfBirth: z.string().optional(),
       email: z.string().email(),
       contactNo: z.string(),
       emergencyContactNo: z.string(),
