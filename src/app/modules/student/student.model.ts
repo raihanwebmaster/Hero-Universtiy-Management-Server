@@ -182,12 +182,12 @@ studentSchema.virtual('fullName').get(function () {
 });
 
 
-
 // Query Middleware
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
+
 
 // Aggregate Middleware
 studentSchema.pre('aggregate', function (next) {
