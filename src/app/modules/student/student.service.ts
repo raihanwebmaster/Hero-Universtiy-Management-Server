@@ -4,17 +4,71 @@ import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
+import QueryBuilder from '../../builder/Querybuilder';
+import { studentSearchableFields } from './student.contant';
 
-const getAllStudentsIntoDB = async () => {
-  const result = await Student.find()
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
-  return result;
+const getAllStudentsIntoDB = async (query: Record<string, unknown>) => {
+  // const queryObj = { ...query };
+  // const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
+  // let searchTerm = '';
+  // if (query?.searchTerm) {
+  //   searchTerm = query?.searchTerm as string;
+  // }
+  // const searchQuery = Student.find({
+  //   $or: studentSearchableFields.map((field) => ({
+  //     [field]: { $regex: searchTerm, $options: '1' },
+  //   })),
+  // });
+
+  // //filtering
+  // const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+  // excludeFields.forEach((el) => delete queryObj[el]);
+
+  // const filtersQuery = searchQuery
+  //   .find(queryObj)
+  //   .populate('admissionSemester')
+  //   .populate({
+  //     path: 'academicDepartment',
+  //     populate: {
+  //       path: 'academicFaculty',
+  //     },
+  //   });
+  // let sort = '-createdAt';
+  // if (query.sort) {
+  //   sort = query.sort as string;
+  // }
+  // const sortQuery = filtersQuery.sort(sort);
+  // let page = 1;
+  // let skip = 0;
+  // let limit = 1;
+  // if (query.limit) {
+  //   limit = Number(query.limit);
+  // }
+  // if (query.page) {
+  //   page = Number(query.page);
+  //   skip = (page - 1) * limit;
+  // }
+  // const pagenateQuery = sortQuery.skip(skip);
+
+  // const limitQuery =  pagenateQuery.limit(limit);
+
+  // let fields = '-__v';
+  // if (query.fields) {
+  //   fields = (query.fields as string).split(',').join(' ');
+  // }
+
+  // const fieldsQuery = await limitQuery.select(fields)
+
+  // return fieldsQuery;
+  const studentQuery = new QueryBuilder(Student.find(), query)
+    .search(studentSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+    const result = await studentQuery.modelQuery
+    return result;
 };
 
 const getSingleStudentIntoDB = async (id: string) => {
