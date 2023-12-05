@@ -5,9 +5,14 @@ import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
-import { generateStudentId } from './user.utils';
+import { generateAdminId, generateFacultyId, generateStudentId } from './user.utils';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
+import { TFaculty } from '../faculty/faculty.interface';
+import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
+import { Faculty } from '../faculty/faculty.model';
+import { TAdmin } from '../admin/admin.interface';
+import { Admin } from '../admin/admin.model';
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // create a user object
@@ -108,14 +113,14 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     await session.endSession();
 
     return newFaculty;
-  } catch (err: any) {
+  } catch (err) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error(err);
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create Faculty');
   }
 };
 
-const createAdminIntoDB = async (password: string, payload: TFaculty) => {
+const createAdminIntoDB = async (password: string, payload: TAdmin) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
@@ -154,10 +159,10 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
     await session.endSession();
 
     return newAdmin;
-  } catch (err: any) {
+  } catch (err) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error(err);
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
   }
 };
 

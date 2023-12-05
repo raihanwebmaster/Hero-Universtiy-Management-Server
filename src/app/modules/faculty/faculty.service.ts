@@ -6,10 +6,10 @@ import { User } from '../user/user.model';
 import { FacultySearchableFields } from './faculty.constant';
 import { TFaculty } from './faculty.interface';
 import { Faculty } from './faculty.model';
-import QueryBuilder from '../../builder/Querybuilder';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
-  const facultyQuery = new QueryBuilder(
+  const facultyQuery = new QueryBuilder (
     Faculty.find().populate('academicDepartment'),
     query,
   )
@@ -24,7 +24,7 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleFacultyFromDB = async (id: string) => {
-  const result = await Faculty.findOne({ id }).populate('academicDepartment');
+  const result = await Faculty.findById(id).populate('academicDepartment');
 
   return result;
 };
@@ -42,7 +42,7 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
     }
   }
 
-  const result = await Faculty.findOneAndUpdate({ id }, modifiedUpdatedData, {
+  const result = await Faculty.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
@@ -55,18 +55,19 @@ const deleteStudentFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedStudent = await Faculty.findOneAndUpdate(
-      { id },
+    const deletedFaculty = await Faculty.findByIdAndUpdate(
+      id,
       { isDeleted: true },
       { new: true, session },
     );
 
-    if (!deletedStudent) {
+    if (!deletedFaculty) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete faculty');
     }
+    const userId = deletedFaculty.user
 
-    const deletedUser = await User.findOneAndUpdate(
-      { id },
+    const deletedUser = await User.findByIdAndUpdate(
+      userId,
       { isDeleted: true },
       { new: true, session },
     );
@@ -75,10 +76,11 @@ const deleteStudentFromDB = async (id: string) => {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete user');
     }
 
+
     await session.commitTransaction();
     await session.endSession();
 
-    return deletedStudent;
+    return deletedFaculty;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
