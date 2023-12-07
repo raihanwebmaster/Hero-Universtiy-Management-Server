@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TAcademicSemseter } from './academicSemester.interface';
+import { AcademicSemesterModel, TAcademicSemseter } from './academicSemester.interface';
 import {
   AcademicSemesterCode,
   AcademicSemesterName,
@@ -8,7 +8,7 @@ import {
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
-const academicSemesterSchema = new Schema<TAcademicSemseter>(
+const academicSemesterSchema = new Schema<TAcademicSemseter,AcademicSemesterModel>(
   {
     name: {
       type: String,
@@ -49,7 +49,15 @@ academicSemesterSchema.pre('save', async function (next) {
   next();
 });
 
-export const AcademicSemester = model<TAcademicSemseter>(
+
+academicSemesterSchema.statics.isAcademicSemesterExists = async function (
+  id: string,
+) {
+  const existingAcademicSemester = await AcademicSemester.findById(id);
+  return existingAcademicSemester;
+};
+
+export const AcademicSemester = model<TAcademicSemseter,AcademicSemesterModel>(
   'AcademicSemester',
   academicSemesterSchema,
 );

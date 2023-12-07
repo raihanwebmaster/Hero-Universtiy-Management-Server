@@ -12,12 +12,12 @@ router.post(
   AcademicSemesterControllers.createAcademicSemester,
 );
 router.get(
-  '/:semesterId',
+  '/:id',
   AcademicSemesterControllers.getSingleAcademicSemester,
 );
 
 router.patch(
-  '/:semesterId',
+  '/:id',
   validateRequest(
     academicSemesterValidation.updateAcademicSemesterValidationSchema,
   ),

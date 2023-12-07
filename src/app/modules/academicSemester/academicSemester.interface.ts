@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 
 export type TMonths =
   | 'January'
@@ -28,3 +29,7 @@ export type TAcademicSemseter = {
 export type TAcadamicSemesterNameCodeMapper = {
   [key: string]: string
 };
+
+export interface AcademicSemesterModel extends Model<TAcademicSemseter> {
+  isAcademicSemesterExists(id: string): Promise<TAcademicSemseter | null>;
+}
