@@ -34,8 +34,7 @@ const updateAcademicFacultyIntoDB = async (
       'This Academic Faculty does not exist Exist!',
     );
   }
-  const _id = id
-  const result = await AcademicFaculty.findByIdAndUpdate(_id, payload, {
+  const result = await AcademicFaculty.findByIdAndUpdate(id, payload, {
     new: true,
   });
   return result;
