@@ -6,5 +6,5 @@ export type TAcademicFaculty = {
 
 
 export interface AcademicFacultyModel extends Model<TAcademicFaculty> {
-  isAcademicFacultyExists(_id: string): Promise<TAcademicFaculty | null>;
+  isAcademicFacultyExists(id: string): Promise<TAcademicFaculty | null>;
 }

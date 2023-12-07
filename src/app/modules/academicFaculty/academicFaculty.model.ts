@@ -32,7 +32,7 @@ const acdemicFacultySchema = new Schema<TAcademicFaculty, AcademicFacultyModel>(
 acdemicFacultySchema.statics.isAcademicFacultyExists = async function (
   id: string,
 ) {
-  const existingAcademicFaculty = await AcademicFaculty.findOne({ id });
+  const existingAcademicFaculty = await AcademicFaculty.findById(id);
   return existingAcademicFaculty;
 };
 

@@ -13,14 +13,14 @@ const getAllAcademicFacultiesFromDB = async () => {
   return result;
 };
 
-const getSingleAcademicFacultyFromDB = async (_id: string) => {
-  if (!(await AcademicFaculty.isAcademicFacultyExists(_id))) {
+const getSingleAcademicFacultyFromDB = async (id: string) => {
+  if (!(await AcademicFaculty.isAcademicFacultyExists(id))) {
     throw new AppError(
       httpStatus.NOT_FOUND,
       'This Academic Faculty does not exist Exist!',
     );
   }
-  const result = await AcademicFaculty.findById(_id);
+  const result = await AcademicFaculty.findById(id);
   return result;
 };
 
