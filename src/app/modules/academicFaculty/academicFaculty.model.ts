@@ -3,6 +3,8 @@ import {
   AcademicFacultyModel,
   TAcademicFaculty,
 } from './academicFaculty.interface';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 // import AppError from '../../errors/AppError';
 // import httpStatus from 'http-status';
 
@@ -16,6 +18,19 @@ const acdemicFacultySchema = new Schema<TAcademicFaculty, AcademicFacultyModel>(
   },
   { timestamps: true },
 );
+
+acdemicFacultySchema.pre('save', async function (next) {
+  const isDepartmentExist = await AcademicFaculty.findOne({
+    name: this.name,
+  });
+  if (isDepartmentExist) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'This Academic Faculty is already Exist!',
+    );
+  }
+  next();
+});
 
 // acdemicFacultySchema.pre('findOneAndUpdate', async function (next) {
 //   const query = this.getQuery();
