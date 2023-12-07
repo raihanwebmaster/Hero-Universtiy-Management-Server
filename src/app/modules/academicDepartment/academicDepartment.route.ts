@@ -12,12 +12,12 @@ router.post(
   AcademicDepartmentControllers.createAcademicDepartment,
 );
 router.get(
-  '/:departmentId',
+  '/:id',
   AcademicDepartmentControllers.getSingleAcademicDepartment,
 );
 
 router.patch(
-  '/:departmentId',
+  '/:id',
   validateRequest(
     AcademicDepartmentValidations.updateAademicDepartmentValidation,
   ),
