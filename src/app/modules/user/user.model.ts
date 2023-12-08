@@ -37,7 +37,6 @@ const userScheam = new Schema<TUser>(
 
 
 userScheam.pre('save', async function (next) {
-  console.log(this, 'pre hok : we will save the data');
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const student = this;
   student.password = await bcrypt.hash(
@@ -48,10 +47,9 @@ userScheam.pre('save', async function (next) {
 });
 
 
-userScheam.post('save', function (doc, next) {
-  console.log(this, 'post hook: we save out data ');
-  doc.password = '';
-  next();
-});
+// userScheam.post('save', function (doc, next) {;
+//   doc.password = '';
+//   next();
+// });
 
 export const User = model<TUser>('User', userScheam);
