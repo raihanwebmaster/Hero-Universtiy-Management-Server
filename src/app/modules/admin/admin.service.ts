@@ -21,11 +21,17 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleAdminFromDB = async (id: string) => {
+  if (!(await Admin.isAdminExists(id))) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Admin does not exist Exist!');
+  }
   const result = await Admin.findById(id);
   return result;
 };
 
 const updateAdminIntoDB = async (id: string, payload: Partial<TAdmin>) => {
+  if (!(await Admin.isAdminExists(id))) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Admin does not exist Exist!');
+  }
   const { name, ...remainingAdminData } = payload;
 
   const modifiedUpdatedData: Record<string, unknown> = {
@@ -46,6 +52,9 @@ const updateAdminIntoDB = async (id: string, payload: Partial<TAdmin>) => {
 };
 
 const deleteAdminFromDB = async (id: string) => {
+  if (!(await Admin.isAdminExists(id))) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Admin does not exist Exist!');
+  }
   const session = await mongoose.startSession();
 
   try {
