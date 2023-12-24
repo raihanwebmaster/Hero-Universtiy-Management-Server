@@ -5,11 +5,13 @@ import cors from 'cors';
 import globalErrorHandler from './app/middlware/globalErrorHandler';
 import notFound from './app/middlware/notFound';
 import router from './app/router';
+import cookieParser from 'cookie-parser';
 const app: Application = express();
 
 //parsers
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: ['http://localhost:3000/api/v1'] }));
 app.use('/api/v1', router);
 
 const test = async (req: Request, res: Response) => {

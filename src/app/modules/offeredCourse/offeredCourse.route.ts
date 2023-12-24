@@ -26,4 +26,4 @@ router.delete(
   OfferedCourseControllers.deleteOfferedCourseFromDB,
 );
 
-export const offeredCourseRoutes = router;
+export const OfferedCourseRoutes = router;
