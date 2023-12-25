@@ -11,6 +11,7 @@ import { CourseFacultiesRoutes } from '../modules/courseFaculties/courseFacultie
 import { SemesterRegistrationRoutes } from '../modules/semesterRegistration/semesterRegistration.route';
 import { OfferedCourseRoutes } from '../modules/offeredCourse/offeredCourse.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
+import { EnrolledCourseRoutes } from '../modules/enrolledCourse/enrolledCourse.route';
 
 const router = Router();
 
@@ -63,6 +64,10 @@ const modulesRoutes = [
     path: '/auth',
     route: AuthRoutes,
   },
+  {
+    path: '/enrolled-courses',
+    route: EnrolledCourseRoutes,
+  }
 ];
 modulesRoutes.forEach((route) => router.use(route.path, route.route));
 
