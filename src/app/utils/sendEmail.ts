@@ -6,13 +6,12 @@ import config from '../config';
         port: 587,
         secure: config.NODE_ENV === 'production',
         auth: {
-          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-          user: "raihanemon2015@gmail.com",
-          pass: "ckeb ovij rfjk auva",
+          user: config.send_mail_auth_user,
+          pass: config.send_mail_auth_pass,
         },
       });
       await transporter.sendMail({
-        from: 'raihanemon2015@gmail.com', // sender address
+        from: config.send_mail_auth_user, // sender address
         to, // list of receivers
         subject: "Reset your password within 10 mins!!", // Subject line
         text: "", // plain text body

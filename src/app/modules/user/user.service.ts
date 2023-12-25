@@ -20,7 +20,11 @@ import { TAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
-const createStudentIntoDB = async (file: any, password: string, payload: TStudent) => {
+const createStudentIntoDB = async (
+  file: any,
+  password: string,
+  payload: TStudent,
+) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
@@ -42,10 +46,13 @@ const createStudentIntoDB = async (file: any, password: string, payload: TStuden
     session.startTransaction();
     // set manully generate id
     userData.id = await generateStudentId(admissionSemester!);
-    const imageName = `${userData.id}${payload.name?.firstName}`
+    const imageName = `${userData.id}${payload.name?.firstName}`;
     const path = file?.path;
-    const {secure_url} = await sendImageToCloudinary(imageName,path)
-    
+    //send image to cloudinary
+    const { secure_url } = (await sendImageToCloudinary(imageName, path)) as {
+      secure_url: string;
+    };
+
     //create a user
     const newUser = await User.create([userData], { session });
 
@@ -209,5 +216,5 @@ export const UserServices = {
   createFacultyIntoDB,
   createAdminIntoDB,
   getMe,
-  changeStatus
+  changeStatus,
 };
