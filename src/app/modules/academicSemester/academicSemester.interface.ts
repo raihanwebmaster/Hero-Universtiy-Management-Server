@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model } from 'mongoose';
 
 export type TMonths =
   | 'January'
@@ -14,20 +14,20 @@ export type TMonths =
   | 'November'
   | 'December';
 
-export type TAcademicSemesterName = 'Autumn' | 'Summar' | 'Fall';
+export type TAcademicSemesterName = 'Autumn' | 'Summer' | 'Fall';
 
 export type TAcademicSemesterCode = '01' | '02' | '03';
 
 export type TAcademicSemseter = {
   name: TAcademicSemesterName;
-  code: TAcademicSemesterCode
+  code: TAcademicSemesterCode;
   year: string;
   startMonth: TMonths;
   endMonth: TMonths;
 };
 
 export type TAcadamicSemesterNameCodeMapper = {
-  [key: string]: string
+  [key: string]: string;
 };
 
 export interface AcademicSemesterModel extends Model<TAcademicSemseter> {

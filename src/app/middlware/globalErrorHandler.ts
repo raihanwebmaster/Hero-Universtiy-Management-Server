@@ -9,6 +9,7 @@ import handleValidationError from '../errors/handleValidationError';
 import handleCastError from '../errors/handleCastError';
 import handleDuplicateError from '../errors/handleDuplicatedError';
 import AppError from '../errors/AppError';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
@@ -22,7 +23,9 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       message: 'Something went wrong!',
     },
   ];
-
+  if(err instanceof TokenExpiredError){
+      statusCode = 401
+  }
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError.statusCode;

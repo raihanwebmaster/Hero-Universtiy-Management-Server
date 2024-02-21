@@ -1,7 +1,5 @@
-import { TCourseFaculty } from "./courseFaculties.interface";
-import { CourseFaculty } from "./courseFaculties.mode";
-
-
+import { TCourseFaculty } from './courseFaculties.interface';
+import { CourseFaculty } from './courseFaculties.mode';
 
 const assignFacultiesWithCourseInfoDB = async (
   id: string,
@@ -34,7 +32,13 @@ const removeFacultiesWithCourseFromDB = async (
   return result;
 };
 
+const getFacultiesWithCourseFromDB = async (courseId: string) => {
+  const result = await CourseFaculty.findOne({course: courseId}).populate("faculties");
+  return result;
+};
+
 export const CourseFacultiesServices = {
   assignFacultiesWithCourseInfoDB,
   removeFacultiesWithCourseFromDB,
+  getFacultiesWithCourseFromDB,
 };

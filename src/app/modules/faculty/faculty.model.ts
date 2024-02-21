@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { BloodGroup, Gender } from './faculty.constant';
 import { FacultyModel, TFaculty, TUserName } from './faculty.interface';
+import validator from 'validator';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -53,8 +54,13 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
     dateOfBirth: { type: Date },
     email: {
       type: String,
+      trim: true,
       required: [true, 'Email is required'],
       unique: true,
+      validate: {
+        validator: (value: string) => validator.isEmail(value),
+        message: '{VALUE} is not a valid email type ',
+      },
     },
     contactNo: { type: String, required: [true, 'Contact number is required'] },
     emergencyContactNo: {
@@ -76,11 +82,16 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
       type: String,
       required: [true, 'Permanent address is required'],
     },
-    profileImg: { type: String },
+    profileImg: { type: String, default: "" },
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: [true, 'AcademicDepartment id is required'],
       ref: 'AcademicDepartment',
+    },
+    academicFaculty: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'AcademicFaculty id is required'],
+      ref: 'AcademicFaculty',
     },
     isDeleted: {
       type: Boolean,

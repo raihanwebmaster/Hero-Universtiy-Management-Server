@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const facultiesWithCourseValidationSchema = z.object({
   body: z.object({
-    facuilties: z.array(z.string()),
+    faculties: z.array(z.string()),
   }),
 });
 

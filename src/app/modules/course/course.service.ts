@@ -103,6 +103,7 @@ const deleteCourseFromDB = async (id: string) => {
   );
   return result;
 };
+
 export const CourseServices = {
   createCourseIntoDB,
   getAllCoursesFromDB,

@@ -23,7 +23,8 @@ const getAllCourses = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Courses are retrieved successfully',
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 
@@ -62,6 +63,7 @@ const deleteCourse = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 
 export const CourseControllers = {
   createCourse,
